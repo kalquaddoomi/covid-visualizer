@@ -98,7 +98,6 @@ function App() {
                     max_deaths: maxDeaths,
                     max_deaths_date: maxDeathsDate,
                 }
-
                 setCovidAggs(aggData)
                 setCovidData(csvObject)
                 setLastFourteenDays(lastFourteenDays)
@@ -153,7 +152,8 @@ function App() {
                                 {covidAggs.max_deaths_date}
                             </p>
                         </div>
-
+                    </div>
+                    <div className="panel-row">
                         <div className="panel-unit">
                             <h3>Case Fatality Rate from Total:</h3>
                             <p>{(100*covidAggs.current_case_fatality).toFixed(4)}%</p>
@@ -172,7 +172,6 @@ function App() {
                                 Based on average 14 days contagious after symptom onset
                             </p>
                         </div>
-
                     </div>
                 </div>
             )
@@ -188,8 +187,6 @@ function App() {
                     <td>{parseInt(dataset.total_cases).toLocaleString()}</td>
                     <td>{parseInt(dataset.new_deaths).toLocaleString()}</td>
                     <td>{parseInt(dataset.total_deaths).toLocaleString()}</td>
-                    <td>{parseInt(dataset.new_cases_11_days_ago).toLocaleString()}</td>
-                    <td>{Math.round(dataset.new_cases * covidAggs.likely_case_fatality).toLocaleString()}</td>
                 </tr>
             )
         )
@@ -212,8 +209,6 @@ function App() {
                         <th>Total Cases</th>
                         <th>New Deaths</th>
                         <th>Total Deaths</th>
-                        <th>New Cases 11 Days Ago</th>
-                        <th>Likely Fatalities From New Cases</th>
                     </tr>
                 </thead>
                 <tbody>
