@@ -86,6 +86,7 @@ function App() {
                 let lastData = csvObject[csvObject.length - 1];
                 let predictiveData = csvObject[csvObject.length - (TIME_TO_DEATH+1)];
                 let contagiousData = csvObject[csvObject.length - 15];
+                let weekData = csvObject[csvObject.length - 8]
                 let aggData = {
                     total_deaths: parseInt(lastData.total_deaths),
                     total_cases: parseInt(lastData.total_cases),
@@ -93,6 +94,8 @@ function App() {
                     current_case_fatality: (lastData.total_deaths/lastData.total_cases),
                     likely_case_fatality: (lastData.total_deaths/predictiveData.total_cases),
                     likely_contagious: (lastData.total_cases - contagiousData.total_cases),
+                    week_cases: parseInt(lastData.total_cases - weekData.total_cases),
+                    week_deaths: parseInt(lastData.total_deaths - weekData.total_deaths),
                     max_cases: maxCases,
                     max_cases_date: maxCasesDate,
                     max_deaths: maxDeaths,
@@ -112,12 +115,14 @@ function App() {
             let lastData = covidData[covidData.length - 1]
             return(
                 <div className="panel-report">
+                    <div>Last Updated: {lastData.date}</div>
                     <div className="panel-row">
                         <div className="panel-unit">
-                            <h3>Cases Yeserday:</h3>
+                            <h3>Cases Yesterday:</h3>
                             <p>{lastData.new_cases.toLocaleString()}</p>
                             <p className="panel-italics">
-                                {lastData.date}, {((lastData.new_cases/covidAggs.max_cases)*100).toFixed(2)}%
+                                <p>Compared to worst day:</p>
+                                <p>{((lastData.new_cases/covidAggs.max_cases)*100).toFixed(2)}%</p>
                             </p>
                         </div>
                         <div className="panel-unit">
@@ -129,7 +134,9 @@ function App() {
                             <h3>Deaths Yesterday:</h3>
                             <p>{lastData.new_deaths.toLocaleString()}</p>
                             <p className="panel-italics">
-                                {((lastData.new_deaths/covidAggs.max_deaths)*100).toFixed(2)}%
+                                <p>Compared to worst day:</p>
+                                <p>{((lastData.new_deaths/covidAggs.max_deaths)*100).toFixed(2)}%</p>
+
                             </p>
                         </div>
                         <div className="panel-unit">
@@ -138,6 +145,20 @@ function App() {
                         </div>
                     </div>
                     <div className="panel-row">
+                        <div className="panel-unit">
+                            <h3>Total Cases Week:</h3>
+                            <p>{covidAggs.week_cases.toLocaleString()}</p>
+                            <p className="panel-italics">
+                                Sum of Last Seven Days
+                            </p>
+                        </div>
+                        <div className="panel-unit">
+                            <h3>Total Deaths Last Week:</h3>
+                            <p>{covidAggs.week_deaths.toLocaleString()}</p>
+                            <p className="panel-italics">
+                                Sum of Last Seven Days
+                            </p>
+                        </div>
                         <div className="panel-unit">
                             <h3>Max Cases in a Day:</h3>
                             <p>{covidAggs.max_cases.toLocaleString()}</p>
