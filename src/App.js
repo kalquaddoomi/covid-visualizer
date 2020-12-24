@@ -87,6 +87,7 @@ function App() {
                 let predictiveData = csvObject[csvObject.length - (TIME_TO_DEATH+1)];
                 let contagiousData = csvObject[csvObject.length - 15];
                 let weekData = csvObject[csvObject.length - 8]
+                let twoWeekAgo = csvObject[csvObject.length - 15]
                 let aggData = {
                     total_deaths: parseInt(lastData.total_deaths),
                     total_cases: parseInt(lastData.total_cases),
@@ -95,7 +96,9 @@ function App() {
                     likely_case_fatality: (lastData.total_deaths/predictiveData.total_cases),
                     likely_contagious: (lastData.total_cases - contagiousData.total_cases),
                     week_cases: parseInt(lastData.total_cases - weekData.total_cases),
+                    week_before_cases: parseInt(weekData.total_cases - twoWeekAgo.total_cases),
                     week_deaths: parseInt(lastData.total_deaths - weekData.total_deaths),
+                    week_before_deaths: parseInt(weekData.total_deaths - twoWeekAgo.total_deaths),
                     max_cases: maxCases,
                     max_cases_date: maxCasesDate,
                     max_deaths: maxDeaths,
@@ -146,17 +149,17 @@ function App() {
                     </div>
                     <div className="panel-row">
                         <div className="panel-unit">
-                            <h3>Total Cases Week:</h3>
+                            <h3>Total Cases Last 7 Days:</h3>
                             <p>{covidAggs.week_cases.toLocaleString()}</p>
                             <p className="panel-italics">
-                                Sum of Last Seven Days
+                                Previous 7 Days: {covidAggs.week_before_cases.toLocaleString()}
                             </p>
                         </div>
                         <div className="panel-unit">
-                            <h3>Total Deaths Last Week:</h3>
+                            <h3>Total Deaths Last 7 Days:</h3>
                             <p>{covidAggs.week_deaths.toLocaleString()}</p>
                             <p className="panel-italics">
-                                Sum of Last Seven Days
+                                Previous 7 Days: {covidAggs.week_before_deaths.toLocaleString()}
                             </p>
                         </div>
                         <div className="panel-unit">
