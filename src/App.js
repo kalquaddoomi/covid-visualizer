@@ -6,6 +6,7 @@ import './App.css';
 function App() {
     const TIME_TO_DEATH = 11
     const [covidData, setCovidData] = useState([]);
+    const [population, setPopulation] = useState(0);
     const [covidAggs, setCovidAggs] = useState({
         total_deaths: 0,
         total_cases: 0,
@@ -20,6 +21,13 @@ function App() {
     })
     const [lastFourteenDays, setLastFourteenDays] = useState([])
     useEffect(() => {
+        Axios.get('https://www.census.gov/popclock/data/population.php/us?_=1609795225323').then(
+            (response) => {
+                if(response.status === 200) {
+                    setPopulation(response.data.us.population)
+                }
+            }
+        )
         Axios.get('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv').then(
         (response) => {
             if(response.status === 200) {
@@ -131,7 +139,11 @@ function App() {
                         <div className="panel-unit">
                             <h3>Total Cases:</h3>
                             <p>{covidAggs.total_cases.toLocaleString()}</p>
-
+                            <p className="panel-italics-tight">
+                                <p>Current Estimated US Population: {population.toLocaleString()} </p>
+                                <p>Percent Infected: {((covidAggs.total_cases / population)*100).toFixed(2)}%</p>
+                                <p>Healthy Population: {(population - covidAggs.total_cases).toLocaleString()}</p>
+                            </p>
                         </div>
                         <div className="panel-unit">
                             <h3>Deaths Yesterday:</h3>

@@ -30,6 +30,11 @@
   font-size: 12px;
   font-style: italic;
 }
+.panel-italics-tight {
+  font-size: 12px;
+  font-style: italic;
+  line-height: 5px;
+}
 
 .FourteenDaysTable {
   margin: auto;
